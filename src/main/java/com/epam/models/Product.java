@@ -4,19 +4,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "products")
-public class Products {
+public class Product {
     @Id
     private long id;
     private String name;
     private int price;
 
-    public Products(long id, String name, int price) {
+    public Product(long id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
 
-    public Products() {
+    public Product() {
     }
 
     public long getId() {
@@ -45,7 +45,7 @@ public class Products {
 
     @Override
     public String toString() {
-        return "Products{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
