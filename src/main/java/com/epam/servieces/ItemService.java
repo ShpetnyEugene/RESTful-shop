@@ -5,6 +5,7 @@ import com.epam.persistence.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
@@ -16,9 +17,12 @@ public class ItemService {
         return repository.findAll();
     }
 
-    public void insert (Item item){
-        repository.insert(item);
+    @PostConstruct
+    public void save(){
+        repository.deleteAll();
+        repository.save(new Item(1,"Apple",124));
+        repository.save(new Item(2,"Orange",657));
+        repository.save(new Item(3,"Potato",197));
     }
-
 
 }
