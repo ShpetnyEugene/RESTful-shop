@@ -31,23 +31,23 @@ public class ItemController {
     }
 
     @PostMapping
-    public void addItem(@RequestBody Item item,@PathVariable long idCustomer){
-         service.addItem(item,idCustomer);
+    public void addItem(@RequestBody Item item, @PathVariable long idCustomer) {
+        service.addItem(item, idCustomer);
     }
 
     @DeleteMapping("/{idItems}")
-    public ResponseEntity<String> deleteItemById(@PathVariable long idCustomer ,@PathVariable long idItems){
-        service.deleteItemById(idCustomer,idItems);
+    public ResponseEntity<String> deleteItemById(@PathVariable long idCustomer, @PathVariable long idItems) {
+        service.deleteItemById(idCustomer, idItems);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public void addOrUpdate(@RequestBody Item item,@PathVariable long idCustomer){
-        service.addOrUpdateItem(idCustomer,item);
+    public void addOrUpdate(@RequestBody Item item, @PathVariable long idCustomer) {
+        service.addOrUpdateItem(idCustomer, item);
     }
 
     @GetMapping("/{idItems}")
-    public Item getItemById(@PathVariable long idCustomer ,@PathVariable long idItems){
-        return service.getItemById(idItems,idCustomer);
+    public Item getItemById(@PathVariable long idCustomer, @PathVariable long idItems) {
+        return service.getItemById(idItems, idCustomer);
     }
 }
