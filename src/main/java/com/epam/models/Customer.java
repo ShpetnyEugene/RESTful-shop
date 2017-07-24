@@ -3,20 +3,21 @@ package com.epam.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "customers")
 public class Customer {
     @Id
     private long id;
     private String lastName;
     private String firstName;
-    private Item item;
+    private List<Item> items;
 
-
-    public Customer(long id, String lastName, String firstName, Item item) {
+    public Customer(long id, String lastName, String firstName, List<Item> items) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.item = item;
+        this.items = items;
     }
 
     public Customer() {
@@ -46,12 +47,12 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public Item getItem() {
-        return item;
+    public List<Item> getItems() {
+        return items;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 
     @Override
@@ -64,7 +65,7 @@ public class Customer {
         if (id != customer.id) return false;
         if (lastName != null ? !lastName.equals(customer.lastName) : customer.lastName != null) return false;
         if (firstName != null ? !firstName.equals(customer.firstName) : customer.firstName != null) return false;
-        return item != null ? item.equals(customer.item) : customer.item == null;
+        return items != null ? items.equals(customer.items) : customer.items == null;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class Customer {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (items != null ? items.hashCode() : 0);
         return result;
     }
 
@@ -82,7 +83,7 @@ public class Customer {
                 "id=" + id +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", item=" + item +
+                ", items=" + items +
                 '}';
     }
 }

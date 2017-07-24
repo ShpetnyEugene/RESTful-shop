@@ -9,34 +9,47 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-public class CustomerController {
-    @Autowired
-    private CustomerService service;
+/**
+ * @author Shpetny Eugene
+ * @version 1.0
+ */
 
-    @RequestMapping(value = "/customers", method = RequestMethod.POST)
+@RestController
+@RequestMapping("/v1.0/customers")
+public class CustomerController {
+    private final CustomerService service;
+
+    @Autowired
+    public CustomerController(CustomerService service) {
+        this.service = service;
+    }
+
+    @PostMapping
     public ResponseEntity<String> addCustomer(@RequestBody Customer customer) {
         service.addCustomer(customer);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-    @RequestMapping(value = "/customers/{idCustomer}", method = RequestMethod.GET)
+    @GetMapping("/{idCustomer}")
     public Customer getCustomersById(@PathVariable long idCustomer) {
         return service.getCustomerById(idCustomer);
     }
 
-    @RequestMapping(value = "customers/{idCustomer}",method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteCustomerById(@PathVariable long idCustomer){
-        service.deleteCustomerById(idCustomer);
-        //TODO maybe wrong HttpStatus
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    @PutMapping
+    public void createOrUpdateCustomer(@RequestBody Customer customer) {
+        service.addOrUpdate(customer);
     }
 
-    /**
-     * TODO ADD PUT METHODS
-     */
-    @RequestMapping(value = "/customers", method = RequestMethod.GET)
+
+    @DeleteMapping("/{idCustomer}")
+    public ResponseEntity<String> deleteCustomerById(@PathVariable long idCustomer) {
+        service.deleteCustomerById(idCustomer);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping
     public List<Customer> getAllCustomers() {
         return service.getAllCustomers();
     }

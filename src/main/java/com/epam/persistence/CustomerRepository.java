@@ -18,5 +18,5 @@ public interface CustomerRepository extends MongoRepository<Customer, Long> {
      * */
     void deleteById(long id);
 
-    Item findItemById(long id);
+
 }
