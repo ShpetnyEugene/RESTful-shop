@@ -1,9 +1,11 @@
-package com.epam.servieces;
+package com.epam.services;
 
+import com.epam.exceptions.ResourceNotFound;
 import com.epam.models.Customer;
 import com.epam.models.Item;
 import com.epam.persistence.CustomerRepository;
 import com.epam.persistence.ItemRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
  */
 @Service
 public class CustomerService {
+
+    private static final Logger log = Logger.getLogger(CustomerService.class);
 
     private final CustomerRepository repository;
     private final ItemRepository itemRepository;
@@ -31,6 +35,10 @@ public class CustomerService {
      * @param idCustomer - ID at which it is necessary to find all Items
      */
     public List<Item> getItems(long idCustomer) {
+        if (repository.findById(idCustomer).getItems() == null) {
+            log.error(new ResourceNotFound());
+            throw new ResourceNotFound();
+        }
         return repository.findById(idCustomer).getItems();
     }
 
@@ -93,6 +101,10 @@ public class CustomerService {
      * @param id - ID on which you want to find Customer
      */
     public Customer getCustomerById(long id) {
+        if (repository.findById(id) == null) {
+            log.error(new ResourceNotFound("No such Customer"));
+            throw new ResourceNotFound("No such Customer");
+        }
         return repository.findById(id);
     }
 
@@ -109,6 +121,9 @@ public class CustomerService {
      * Finds all customers
      */
     public List<Customer> getAllCustomers() {
+        if (repository.findAll().isEmpty()) {
+            throw new ResourceNotFound();
+        }
         return repository.findAll();
     }
 

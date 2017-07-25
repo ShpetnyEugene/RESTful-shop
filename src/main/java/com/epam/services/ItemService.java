@@ -1,5 +1,6 @@
-package com.epam.servieces;
+package com.epam.services;
 
+import com.epam.exceptions.ResourceNotFound;
 import com.epam.models.Item;
 import com.epam.persistence.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ItemService {
                 return item;
             }
         }
-        return null;
+        throw new ResourceNotFound("Not found Item "+idItems);
     }
 
     /**
