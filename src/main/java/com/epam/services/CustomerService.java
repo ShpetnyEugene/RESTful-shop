@@ -3,8 +3,10 @@ package com.epam.services;
 import com.epam.exceptions.ResourceNotFound;
 import com.epam.models.Customer;
 import com.epam.models.Item;
+import com.epam.models.Product;
 import com.epam.persistence.CustomerRepository;
 import com.epam.persistence.ItemRepository;
+import com.epam.persistence.ProductsRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,13 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final ItemRepository itemRepository;
+    private final ProductsRepository productsRepository;
 
     @Autowired
-    public CustomerService(CustomerRepository repository, ItemRepository itemRepository) {
+    public CustomerService(CustomerRepository repository, ItemRepository itemRepository, ProductsRepository productsRepository) {
         this.repository = repository;
         this.itemRepository = itemRepository;
+        this.productsRepository = productsRepository;
     }
 
     /**
@@ -82,6 +86,12 @@ public class CustomerService {
     public void addCustomer(Customer customer) {
         if (repository.findById(customer.getId()) == null) {
             repository.save(customer);
+            itemRepository.save(customer.getItems());
+
+            for(Item item: customer.getItems()){
+                productsRepository.save(item.getProducts());
+            }
+
         }
     }
 
