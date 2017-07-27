@@ -1,9 +1,8 @@
 package com.epam.services;
 
-import com.epam.exceptions.ResourceNotFound;
+import com.epam.exceptions.ResourceNotFoundException;
 import com.epam.models.Customer;
 import com.epam.models.Item;
-import com.epam.models.Product;
 import com.epam.persistence.CustomerRepository;
 import com.epam.persistence.ItemRepository;
 import com.epam.persistence.ProductsRepository;
@@ -40,8 +39,8 @@ public class CustomerService {
      */
     public List<Item> getItems(long idCustomer) {
         if (repository.findById(idCustomer).getItems() == null) {
-            log.error(new ResourceNotFound());
-            throw new ResourceNotFound();
+            log.error(new ResourceNotFoundException());
+            throw new ResourceNotFoundException();
         }
         return repository.findById(idCustomer).getItems();
     }
@@ -86,12 +85,12 @@ public class CustomerService {
     public void addCustomer(Customer customer) {
         if (repository.findById(customer.getId()) == null) {
             repository.save(customer);
-            itemRepository.save(customer.getItems());
-
-            for(Item item: customer.getItems()){
-                productsRepository.save(item.getProducts());
+            if (customer.getItems() != null) {
+                itemRepository.save(customer.getItems());
+                for (Item item : customer.getItems()) {
+                    productsRepository.save(item.getProducts());
+                }
             }
-
         }
     }
 
@@ -112,8 +111,8 @@ public class CustomerService {
      */
     public Customer getCustomerById(long id) {
         if (repository.findById(id) == null) {
-            log.error(new ResourceNotFound("No such Customer"));
-            throw new ResourceNotFound("No such Customer");
+            log.error(new ResourceNotFoundException("No such Customer"));
+            throw new ResourceNotFoundException("No such Customer");
         }
         return repository.findById(id);
     }
@@ -132,7 +131,7 @@ public class CustomerService {
      */
     public List<Customer> getAllCustomers() {
         if (repository.findAll().isEmpty()) {
-            throw new ResourceNotFound();
+            throw new ResourceNotFoundException();
         }
         return repository.findAll();
     }

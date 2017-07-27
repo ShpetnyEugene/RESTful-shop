@@ -1,6 +1,6 @@
 package com.epam.services;
 
-import com.epam.exceptions.ResourceNotFound;
+import com.epam.exceptions.ResourceNotFoundException;
 import com.epam.models.Item;
 import com.epam.models.Product;
 import com.epam.persistence.ProductsRepository;
@@ -45,7 +45,7 @@ public class ProductService {
                 return product;
             }
         }
-        throw new ResourceNotFound("Not found product with id :" + idProducts);
+        throw new ResourceNotFoundException("Not found product with id :" + idProducts);
 
     }
 

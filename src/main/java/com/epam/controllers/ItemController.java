@@ -1,7 +1,7 @@
 package com.epam.controllers;
 
 
-import com.epam.exceptions.ResourceNotFound;
+import com.epam.exceptions.ResourceNotFoundException;
 import com.epam.models.Item;
 import com.epam.services.CustomerService;
 import com.epam.services.ItemService;
@@ -56,7 +56,7 @@ public class ItemController {
     @GetMapping("/{idItems}")
     public Item getItemById(@PathVariable long idCustomer, @PathVariable long idItems) {
         if(service.getItemById(idItems, idCustomer) == null){
-            throw new ResourceNotFound();
+            throw new ResourceNotFoundException();
         }
         return service.getItemById(idItems, idCustomer);
     }
